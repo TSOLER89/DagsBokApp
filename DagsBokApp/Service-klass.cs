@@ -43,7 +43,7 @@ namespace DagsBokApp
             catch (Exception ex)
             {
                 LogError(ex);
-                Console.WriteLine("⚠️ Kunde inte läsa in filen (felaktigt format?).");
+                Console.WriteLine(" Kunde inte läsa in filen (felaktigt format?).");
                 return new List<DiaryEntry>();
             }
         }
