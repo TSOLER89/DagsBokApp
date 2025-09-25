@@ -1,4 +1,6 @@
-﻿namespace DagsBokApp
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace DagsBokApp
 {
     internal class Program
     {
@@ -17,48 +19,50 @@
                             entriesByDate[e.Date] = e;
                     }
 
-                    while (true)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        Console.WriteLine("\n--- MIN DAGBOK ---" );
-                        Console.ResetColor();
+            while (true)
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("\n--- MIN DAGBOK ---");
+                Console.ResetColor();
 
-                        Console.WriteLine("1. Skriv ny anteckning" );
-                        Console.WriteLine("2. Lista alla anteckningar" );
-                        Console.WriteLine("3. Sök anteckning på datum" );
-                        Console.WriteLine("4. Spara till fil" );
-                        Console.WriteLine("5. Läs från fil" );
-                        Console.WriteLine("6. Ta bort anteckning" );
-                        Console.WriteLine("7. Uppdatera anteckning" );
-                        Console.WriteLine("0. Avsluta");
-                        Console.Write("Välj: ");
-                        string? choice = Console.ReadLine();
+                Console.WriteLine("1. Skriv ny anteckning");
+                Console.WriteLine("2. Lista alla anteckningar");
+                Console.WriteLine("3. Sök anteckning på datum");
+                Console.WriteLine("4. Spara till fil");
+                Console.WriteLine("5. Läs från fil");
+                Console.WriteLine("6. Ta bort anteckning");
+                Console.WriteLine("7. Uppdatera anteckning");
+                Console.WriteLine("0. Avsluta");
+                Console.Write("Välj: ");
+                string? choice = Console.ReadLine();
 
-                        switch (choice)
+                switch (choice)
+                {
+                    case "1":
+                        Console.Write("Ange datum (åååå-mm-dd): ");
+                        if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
                         {
-                            case "1":
-                                Console.Write("Ange datum (åååå-mm-dd): ");
-                                if (!DateTime.TryParse(Console.ReadLine(), out DateTime date))
-                                
-                                    Console.WriteLine(" Ogiltigt datum! ");
-                                    break;
-                                }
-
-                                Console.Write("Skriv anteckning: ");
-                                string? text = Console.ReadLine();
-                                if (string.IsNullOrWhiteSpace(text))
-                                {
-                                    Console.WriteLine("Texten får inte vara tom.");
-                                    break;
-                                }
-
-                                DiaryEntry newEntry = new() { Date = date, Text = text };
-                                entries.Add(newEntry);
-                                entriesByDate[date] = newEntry;
-                                Console.WriteLine("✅ Anteckning sparad i minnet.");
+                            Console.Write("Skriv anteckning: ");
+                            string text = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(text))
+                            {
+                                Console.WriteLine("Texten får inte vara tom.");
                                 break;
 
-                            case "2":
+                            }
+                            DiaryEntry newEntry = new() { Date = date, Text = text };
+                            entries.Add(newEntry);
+                            entriesByDate[date] = newEntry;
+                            Console.WriteLine("Anteckning sparad i minnet.");
+                            break;
+                        }
+                        else
+                            Console.WriteLine("Fel Datum ");
+                            break;
+
+                       
+
+                    case "2":
                                 if (entries.Count == 0)
                                     Console.WriteLine("Inga anteckningar.");
                                 else
@@ -69,7 +73,7 @@
                                 Console.Write("Ange datum att söka: ");
                                 if (!DateTime.TryParse(Console.ReadLine(), out DateTime searchDate))
                                 {
-                                    Console.WriteLine("❌ Ogiltigt datum!");
+                                    Console.WriteLine("Ogiltigt datum!");
                                     break;
                                 }
 
@@ -81,7 +85,7 @@
 
                             case "4":
                                 service.Save(entries);
-                                Console.WriteLine("💾 Anteckningar sparade till fil.");
+                                Console.WriteLine("Anteckningar sparade till fil.");
                                 break;
 
                             case "5":
@@ -89,7 +93,7 @@
                                 entriesByDate.Clear();
                                 foreach (var e in entries)
                                     entriesByDate[e.Date] = e;
-                                Console.WriteLine("📂 Anteckningar inlästa från fil.");
+                                Console.WriteLine("Anteckningar inlästa från fil.");
                                 break;
 
                             case "6": // Ta bort anteckning
@@ -99,7 +103,7 @@
                                 {
                                     entries.Remove(delEntry);
                                     entriesByDate.Remove(delDate);
-                                    Console.WriteLine("🗑 Anteckning borttagen.");
+                                    Console.WriteLine("Anteckning borttagen.");
                                 }
                                 else
                                 {
@@ -140,7 +144,6 @@
                         }
                     }
                 }
-            }
-        }
     }
 }
+  
