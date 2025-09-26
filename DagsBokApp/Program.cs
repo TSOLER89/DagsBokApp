@@ -32,6 +32,7 @@ namespace DagsBokApp
                 Console.WriteLine("5. Läs från fil");
                 Console.WriteLine("6. Ta bort anteckning");
                 Console.WriteLine("7. Uppdatera anteckning");
+                Console.WriteLine("8. Sammanfatta Min Dagbok");
                 Console.WriteLine("0. Avsluta");
                 Console.Write("Välj: ");
                 string? choice = Console.ReadLine();
@@ -141,11 +142,15 @@ namespace DagsBokApp
                         }
                         else
                         {
+                            Console.WriteLine();
                             var firstDate = entries.Min(e => e.Date);
                             var lastDate = entries.Max(e => e.Date);
+
+                            Console.ForegroundColor = ConsoleColor.Magenta;
                             Console.WriteLine($"Antal anteckningar: {entries.Count}");
                             Console.WriteLine($"Första anteckning: {firstDate:yyyy-MM-dd}");
                             Console.WriteLine($"Senaste anteckning: {lastDate:yyyy-MM-dd}");
+                            Console.ResetColor();
                         }
                         break;
 
@@ -159,7 +164,7 @@ namespace DagsBokApp
                 }
 
             }
-            }
+
         }
     }
 }
